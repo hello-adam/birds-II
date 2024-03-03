@@ -1,0 +1,55 @@
+[gd_scene load_steps=7 format=3 uid="uid://bmqj6ncj1skc5"]
+
+[ext_resource type="Script" path="res://structures/BirdShrine.gd" id="1_e3muf"]
+[ext_resource type="Texture2D" uid="uid://dkyapjm2dpats" path="res://assets/images/GoldenBird.png" id="1_jo7ga"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xsg72"]
+size = Vector2(64, 64)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_18g31"]
+radius = 100.0
+
+[sub_resource type="Gradient" id="Gradient_qs7r6"]
+offsets = PackedFloat32Array(0, 0.519481, 0.770563, 1)
+colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 1, 0.714286, 0.714286, 0.714286, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_chax7"]
+gradient = SubResource("Gradient_qs7r6")
+fill_to = Vector2(1, 1)
+
+[node name="BirdShrine" type="Node2D" groups=["bird"]]
+script = ExtResource("1_e3muf")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_jo7ga")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("RectangleShape2D_xsg72")
+
+[node name="Area2D" type="Area2D" parent="." groups=["offering"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_18g31")
+
+[node name="RequestOverlay" type="Node2D" parent="."]
+visible = false
+
+[node name="Request" type="RichTextLabel" parent="RequestOverlay"]
+custom_minimum_size = Vector2(220, 0)
+offset_left = -110.0
+offset_top = -80.0
+offset_right = 110.0
+offset_bottom = -36.0
+bbcode_enabled = true
+text = "[center]Bring [b][color=\"red\"]offerings[/color][/b][/center]"
+fit_content = true
+
+[node name="PointLight2D" type="PointLight2D" parent="RequestOverlay"]
+position = Vector2(-0.499998, -1)
+energy = 0.29
+texture = SubResource("GradientTexture2D_chax7")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

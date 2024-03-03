@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://d1j0x4cd1q33f"]
+
+[ext_resource type="Script" path="res://structures/Island.gd" id="1_7ur6n"]
+[ext_resource type="Texture2D" uid="uid://f68buwwx84uw" path="res://assets/images/island.png" id="1_72mci"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mkc7e"]
+size = Vector2(270, 120)
+
+[node name="Island" type="Node2D"]
+script = ExtResource("1_7ur6n")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_72mci")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PackedVector2Array(-113, 15, -113, -32, -88, -52, 110, -55, 100, 5, 75, 20)
+
+[node name="Interaction" type="Area2D" parent="." groups=["island"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interaction"]
+position = Vector2(0, -20)
+shape = SubResource("RectangleShape2D_mkc7e")
+
+[connection signal="body_entered" from="Interaction" to="." method="_on_interaction_body_entered"]
+[connection signal="body_exited" from="Interaction" to="." method="_on_interaction_body_exited"]

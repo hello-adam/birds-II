@@ -1,0 +1,109 @@
+[gd_scene load_steps=11 format=3 uid="uid://kv6j2lrm01vl"]
+
+[ext_resource type="Script" path="res://character/Character.gd" id="1_uhpkn"]
+[ext_resource type="Texture2D" uid="uid://frmdtxxgnf2e" path="res://assets/images/FatKing.png" id="2_bee5e"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_squ6b"]
+atlas = ExtResource("2_bee5e")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jmsy4"]
+atlas = ExtResource("2_bee5e")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3p7l0"]
+atlas = ExtResource("2_bee5e")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ll0h"]
+atlas = ExtResource("2_bee5e")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fo3xd"]
+atlas = ExtResource("2_bee5e")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_klxnr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_squ6b")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jmsy4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3p7l0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6ll0h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3p7l0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fo3xd")
+}],
+"loop": true,
+"name": &"move",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o5jdx"]
+size = Vector2(48, 30)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fhiyv"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 0
+properties/1/path = NodePath(".:pid")
+properties/1/spawn = true
+properties/1/replication_mode = 0
+
+[node name="Character" type="CharacterBody2D" groups=["player"]]
+script = ExtResource("1_uhpkn")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_klxnr")
+frame_progress = 0.649323
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 17)
+shape = SubResource("RectangleShape2D_o5jdx")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+ignore_rotation = false
+position_smoothing_speed = 1.0
+rotation_smoothing_speed = 1.0
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_fhiyv")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+layer = 5
+
+[node name="M" type="MarginContainer" parent="HUD"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Actions" type="VBoxContainer" parent="HUD/M"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+alignment = 2
+
+[node name="Inventory" type="VBoxContainer" parent="HUD/M"]
+layout_mode = 2
+size_flags_horizontal = 8
